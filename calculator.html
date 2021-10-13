@@ -1,0 +1,175 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Calculator</title>
+    <style>
+        table,th,td {
+                border: 3px solid black;
+                height:70px;
+                width: 300px;
+                background-color:blueviolet;
+                border-radius: 10px;            
+            }   
+            
+   table.Center{
+                margin-left: auto;
+                margin-right: auto;            
+            }
+            input.ip{
+                height:65px ;
+                width:70px ;
+                margin-left:2px;
+                background-color:black;
+                color:white;
+                font-size: 25px;
+                border-radius:20px;
+            }
+            #clr{
+                height:65px ;
+                width:70px ;
+                margin-left:2px;
+                background-color:black;
+                color:white;
+                font-size: 25px;
+                border-radius:20px;
+            }
+            #Main{ 
+                font-size: 30px;              
+                height:75px ;                            
+                border-radius: 20px;  
+                color: wheat;      
+                background-color: black;                           
+            }
+            #clock{
+                height:65px ;
+                width:150px ;
+                margin-left:2px;
+                background-color:black;
+                color:red;
+                font-size: 25px;
+                border-radius:20px;
+                
+            }
+        
+    </style>
+</head>
+<body>
+    <table class="Center">
+        <thead>
+        <tr>
+         <td colspan="4"><input type="text" id="Main" disabled></td>         
+        </tr> 
+        </thead>       
+      <tbody>
+          <tr>
+            <td colspan="2"> <input id="clock" type="text" disabled> </td>
+            <td> <input class="ip" style="color: red;" type="button" value="%" onclick="Cal(this)"> </td>
+            <td> <input id="clr"  type="button" value="AC" onclick="Clear()" onmouseover="Changecolor()" onmouseout="Previouscolor()"> </td>    
+          </tr>
+          <tr>
+           <td> <input class="ip" type="button" value="7" onclick="Cal(this)"> </td>
+           <td> <input class="ip" type="button" value="8" onclick="Cal(this)"> </td>
+           <td> <input class="ip" type="button" value="9" onclick="Cal(this)"> </td>
+           <td> <input class="ip" style="color: red;"  type="button" value="÷" onclick="Cal(this)"> </td>
+          </tr>
+          <tr>
+            <td> <input class="ip" type="button" value="4" onclick="Cal(this)"> </td>
+            <td> <input class="ip" type="button" value="5" onclick="Cal(this)"> </td>
+            <td> <input class="ip" type="button" value="6" onclick="Cal(this)"> </td>
+            <td> <input class="ip" style="color: red;" type="button" value="x" onclick="Cal(this)"> </td>
+           </tr>
+       </tbody>    
+       <tfoot>
+           <tr>
+             <td> <input class="ip" type="button" value="1" onclick="Cal(this)"> </td>
+             <td> <input class="ip" type="button" value="2" onclick="Cal(this)"> </td>
+             <td> <input class="ip" type="button" value="3" onclick="Cal(this)"> </td>
+             <td> <input class="ip" style="color: red;" type="button" value="-" onclick="Cal(this)"> </td>
+           </tr>
+            <tr>
+              <td> <input class="ip"  type="button" value="0" onclick="Cal(this)"> </td>
+              <td> <input class="ip"  type="button" value="."> </td>
+              <td> <input class="ip"  style="color: red;" type="button" value="=" onclick="Equal()"> </td>
+              <td> <input class="ip" style="color: red;" type="button" value="+" onclick="Cal(this)">
+           </tr>
+        </tfoot>  
+     </table>
+     <script>  
+     setInterval(function(){
+        var Today = new Date();
+        var Hours =Today.getHours();
+        var AmPm = Hours >= 12 ? "pm" : "am";
+            Hours = (Hours%12) || 12;
+        var Time = Hours + ":" + Today.getMinutes() + ":" + Today.getSeconds() + " "+ AmPm;
+        document.getElementById("clock").value=Time;   }, 1000);
+        
+         function Changecolor()
+         {
+          var colorchange=document.getElementById("clr");
+            colorchange.style.cssText ="color:red;";      
+         }  
+
+         function Previouscolor()
+         {
+            colorchange=document.getElementById("clr");
+            colorchange.style.cssText ="color:white;";
+         }
+
+         function Cal(btn)
+         {
+
+            let format = /[ `x!@#$%^&*()÷_+\-=\[\]{};':"\\|,.<>\/?~]/;
+            let format2 = /[.+-x\d]/;                                 
+            input = document.getElementById("Main").value;
+            if(format.test(input.charAt(input.length-1)) && format.test(btn.value) )
+            {
+                input=input.slice(0,-1);
+            }            
+            input+=btn.value;           
+            document.getElementById("Main").value=input; 
+            if(format2.test(input))
+            {
+                document.getElementById("clr").value="CE";
+            }                              
+          
+            
+         }   
+
+
+         function Equal()
+        { 
+           var Total=null;
+           document.getElementById("clr").value="AC"; 
+           if(input.includes("x"))
+           {
+               Total=input.replaceAll("x","*");
+           } 
+           else
+           {
+               Total=input.replaceAll("÷","/");
+           } 
+                           
+           document.getElementById("Main").value=eval(Total);  
+                            
+          
+        } 
+
+
+         function Clear()
+         {  
+
+          if(document.getElementById("clr").value==="AC")
+          {
+            document.getElementById("Main").value="";
+          }else{
+           const text=document.getElementById("Main").value;
+           const editedText = text.slice(0, -1)     
+           document.getElementById("Main").value=editedText;
+          }
+                                     
+         }
+     </script>
+    </body>
+</html>
